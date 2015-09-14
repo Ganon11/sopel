@@ -19,10 +19,10 @@ import time
 import traceback
 import signal
 
-__version__ = '6.0.0a5'
+__version__ = '6.0.0'
 
 
-def _version_info():
+def _version_info(version=__version__):
     regex = re.compile(r'(\d+)\.(\d+)\.(\d+)(?:(a|b|rc)(\d+))?.*')
     version_groups = regex.match(__version__).groups()
     major, minor, micro = (int(piece) for piece in version_groups[0:3])
@@ -34,7 +34,7 @@ def _version_info():
         level = 'beta'
     elif level == 'rc':
         level = 'candidate'
-    elif not level and version_groups[5] is None:
+    elif not level and version_groups[4] is None:
         level = 'final'
     else:
         level = 'alpha'

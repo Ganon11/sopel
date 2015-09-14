@@ -69,7 +69,7 @@ class StaticSection(object):
                                                                   value)
                     )
 
-    def configure_setting(self, name, prompt=None, default=NO_DEFAULT):
+    def configure_setting(self, name, prompt, default=NO_DEFAULT):
         """Return a validated value for this attribute from the terminal.
 
         ``prompt`` will be the docstring of the attribute if not given.
@@ -81,7 +81,6 @@ class StaticSection(object):
         not the attribute's default.
         """
         clazz = getattr(self.__class__, name)
-        prompt = prompt or clazz.__doc__
         if default is NO_DEFAULT:
             try:
                 default = getattr(self, name)
@@ -214,13 +213,20 @@ class ListAttribute(BaseValidated):
     """A config attribute containing a list of string values.
 
     Values are saved to the file as a comma-separated list. It does not
-    currently support commas within items in the list."""
-    def __init__(self, name, default=None):
+    currently support commas within items in the list. By default, the spaces
+    before and after each item are stripped; you can override this by passing
+    ``strip=False``."""
+    def __init__(self, name, strip=True, default=None):
         default = default or []
         super(ListAttribute, self).__init__(name, default=default)
+        self.strip = strip
 
     def parse(self, value):
-        return value.split(',')
+        value = value.split(',')
+        if self.strip:
+            return [v.strip() for v in value]
+        else:
+            return value
 
     def serialize(self, value):
         if not isinstance(value, list):
@@ -308,12 +314,13 @@ class FilenameAttribute(BaseValidated):
     def parse(self, main_config, this_section, value):
         if value is None:
             return
+
+        value = os.path.expanduser(value)
+
         if not os.path.isabs(value):
             if not self.relative:
                 raise ValueError("Value must be an absolute path.")
             value = os.path.join(main_config.homedir, value)
-
-        value = os.path.expanduser(value)
 
         if self.directory and not os.path.isdir(value):
             try:

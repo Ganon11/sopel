@@ -31,7 +31,7 @@ else:
 LOGGER = get_logger(__name__)
 
 vt_base_api_url = 'https://www.virustotal.com/vtapi/v2/url/'
-malware_domains = []
+malware_domains = set()
 known_good = []
 
 
@@ -46,8 +46,14 @@ class SafetySection(StaticSection):
 
 def configure(config):
     config.define_section('safety', SafetySection)
-    config.safety.configure_setting('enabled_by_default')
-    config.safety.configure_setting('known_good')
+    config.safety.configure_setting(
+        'enabled_by_default',
+        "Enable URL safety in channels that don't specifically disable it?",
+    )
+    config.safety.configure_setting(
+        'known_good',
+        'Enter any domains to whitelist',
+    )
     config.safety.configure_setting(
         'vt_api_key',
         "Optionaly, enter a VirusTotal API key to improve malicious URL "
@@ -71,7 +77,9 @@ def setup(bot):
         _download_malwaredomains_db(loc)
     with open(loc, 'r') as f:
         for line in f:
-            malware_domains.append(unicode(line).strip().lower())
+            clean_line = unicode(line).strip().lower()
+            if clean_line != '':
+                malware_domains.add(clean_line)
 
 
 def _download_malwaredomains_db(path):
@@ -107,7 +115,7 @@ def url_handler(bot, trigger):
     if not check:
         return  # Not overriden by DB, configured default off
 
-    netloc = urlparse(trigger).netloc
+    netloc = urlparse(trigger.group(1)).netloc
     if any(regex.search(netloc) for regex in known_good):
         return  # Whitelisted
 
