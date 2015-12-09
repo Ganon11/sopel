@@ -1,4 +1,4 @@
-# coding=utf8
+# coding=utf-8
 """
 dice.py - Dice Module
 Copyright 2010-2013, Dimitri "Tyrope" Molenaars, TyRope.nl
@@ -7,7 +7,7 @@ Licensed under the Eiffel Forum License 2.
 
 http://sopel.chat/
 """
-from __future__ import unicode_literals
+from __future__ import unicode_literals, absolute_import, print_function, division
 import random
 import re
 import operator

@@ -1,4 +1,4 @@
-# coding=utf8
+# coding=utf-8
 """
 url.py - Sopel URL title module
 Copyright 2010-2011, Michael Yanovich, yanovich.net, Kenneth Sham
@@ -9,7 +9,7 @@ Licensed under the Eiffel Forum License 2.
 
 http://sopel.chat
 """
-from __future__ import unicode_literals
+from __future__ import unicode_literals, absolute_import, print_function, division
 
 import re
 from sopel import web, tools

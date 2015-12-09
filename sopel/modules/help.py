@@ -1,4 +1,4 @@
-# coding=utf8
+# coding=utf-8
 """
 help.py - Sopel Help Module
 Copyright 2008, Sean B. Palmer, inamidst.com
@@ -7,9 +7,10 @@ Licensed under the Eiffel Forum License 2.
 
 http://sopel.chat
 """
-from __future__ import unicode_literals
+from __future__ import unicode_literals, absolute_import, print_function, division
 
 import textwrap
+import collections
 
 from sopel.formatting import bold
 from sopel.module import commands, rule, example, priority
@@ -50,7 +51,7 @@ def help(bot, trigger):
         )
 
         name_length = max(6, max(len(k) for k in bot.command_groups.keys()))
-        for category, cmds in bot.command_groups.items():
+        for category, cmds in collections.OrderedDict(sorted(bot.command_groups.items())).items():
             category = category.upper().ljust(name_length)
             cmds = '  '.join(cmds)
             msg = bold(category) + '  ' + cmds

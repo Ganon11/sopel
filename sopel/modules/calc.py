@@ -1,4 +1,4 @@
-# coding=utf8
+# coding=utf-8
 """
 calc.py - Sopel Calculator Module
 Copyright 2008, Sean B. Palmer, inamidst.com
@@ -6,7 +6,7 @@ Licensed under the Eiffel Forum License 2.
 
 http://sopel.dfbta.net
 """
-from __future__ import unicode_literals
+from __future__ import unicode_literals, absolute_import, print_function, division
 
 import re
 from sopel import web

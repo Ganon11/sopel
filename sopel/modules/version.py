@@ -1,4 +1,4 @@
-# coding=utf8
+# coding=utf-8
 """
 version.py - Sopel Version Module
 Copyright 2009, Silas Baronda
@@ -7,7 +7,7 @@ Licensed under the Eiffel Forum License 2.
 
 http://sopel.chat
 """
-from __future__ import unicode_literals
+from __future__ import unicode_literals, absolute_import, print_function, division
 
 from datetime import datetime
 import sopel
