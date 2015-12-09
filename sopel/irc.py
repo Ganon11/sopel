@@ -248,6 +248,9 @@ class Bot(asynchat.async_chat):
         else:
             self.write(['JOIN', channel, password])
 
+        if self.config.core.greeting:
+            self.say(self.config.core.greeting, channel)
+
     def handle_connect(self):
         if self.config.core.use_ssl and has_ssl:
             if not self.config.core.verify_ssl:

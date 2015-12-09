@@ -91,6 +91,9 @@ class CoreSection(StaticSection):
     extra = ListAttribute('extra')
     """A list of other directories you'd like to include modules from."""
 
+    greeting = ValidatedAttribute('greeting', default=None)
+    """A greeting which will be said upon joining a channel."""
+
     help_prefix = ValidatedAttribute('help_prefix', default='.')
     """The prefix to use in help"""
 
